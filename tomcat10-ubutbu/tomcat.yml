@@ -1,0 +1,9 @@
+name: instating tomcat-10 on unbuntu
+hosts: all
+become: yes
+tasks: 
+  - name: instating java-11
+    ansible.builtin.apt:
+      name : openjdk-11-jdk 
+      update_cache: yes 
+      state : present
