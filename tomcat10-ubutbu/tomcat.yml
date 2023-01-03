@@ -5,7 +5,7 @@
   tasks: 
     - name: instating java-11
       ansible.builtin.apt:
-        name : openjdk-11-jdk 
+        name: openjdk-11-jdk 
         update_cache: yes 
         state: present 
     - name: creating a tomcat user
