@@ -1,18 +1,18 @@
 ---
-- name: instating tomcat-10 on unbuntu
+- name: Install tomcat 10 on ubuntu 22
   hosts: all
   become: yes
-  tasks: 
-    - name: instating java-11
+  tasks:
+    - name: java installation
       ansible.builtin.apt:
-        name: openjdk-11-jdk 
-        update_cache: yes 
-        state: present 
-    - name: creating a tomcat user
-      ansible.builtin.user: 
-        name: tomcat 
+        name: openjdk-11-jdk
+        update_cache: yes
+        state: present
+    - name: create a tomcat user
+      ansible.builtin.user:
+        name: tomcat
         create_home: yes
-        group: tomcat 
+        group: tomcat
         home: /opt/tomcat
         shell: /bin/false
         state: present
