@@ -7,5 +7,12 @@
       ansible.builtin.apt:
         name : openjdk-11-jdk 
         update_cache: yes 
-        state : present 
-        purge : ture
+        state: present 
+    - name: creating a tomcat user
+      ansible.builtin.user: 
+        name: tomcat 
+        create_home: yes
+        group: tomcat 
+        home: /opt/tomcat
+        shell: /bin/false
+        state: present
