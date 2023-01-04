@@ -18,4 +18,10 @@
         group: tomcat
         home: /opt/tomcat
         shell: /bin/false
-        state: present
+        state: present 
+    - name: download and unarchvie tomcat 10.1.4 
+      ansible.builtin.unarchive: 
+        src: https://www-eu.apache.org/dist/tomcat/tomcat-10/v10.1.4/bin/apache-tomcat-10.1.4.tar.gz 
+        remote_src: yes
+        dest: /opt/tomcat
+        
