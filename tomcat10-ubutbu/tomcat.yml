@@ -27,10 +27,7 @@
     - name: symbalic links creation
       ansible.builtin.file: 
         src: /opt/tomcat/apache-tomcat-10.1.4
-        dest: /opt/tomcat/latest
-        recurse: yes
-        owner: tomcat 
-        group: tomcat 
+        dest: /opt/tomcat/latest 
         state: link 
     - name: change permissions
       ansible.builtin.file:
