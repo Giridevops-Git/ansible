@@ -20,7 +20,7 @@
         state: present
     - name: tomcat group creation
       ansible.builtin.group:
-        name: "{{group_name}} "   
+        name: "{{group_name}}"   
     - name: create a tomcat user
       ansible.builtin.user:
         name: "{{user_name}}"
