@@ -63,7 +63,7 @@
     - name: copy the users xml
       ansible.builtin.copy:
         scr: tomcat-users.xml 
-        dest:  "{{user_home}}/latest/conf/tomcat-users.xml" 
+        dest: "{{user_home}}/latest/conf/tomcat-users.xml" 
         owner: "{{owner_name}}" 
         group: "{{group_name}}" 
     - name:  copy the manager app context file 
