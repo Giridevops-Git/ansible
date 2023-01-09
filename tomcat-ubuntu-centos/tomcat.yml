@@ -18,12 +18,17 @@
         group: "{{ group_name }}"
         home: "{{ user_home }}"
         shell: "{{ user_shell }}"
-        state: present
+        state: present 
+    - name: get tomcat stats
+      ansible.builtin.stat:
+        path: "{{ user_home }}/latest/bin/startup.sh"
+      register: tomcat_startup    
     - name: extract tomcat
       ansible.builtin.unarchive:
         src: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         remote_src: yes
-        dest: "{{ user_home }}"
+        dest: "{{ user_home }}" 
+      when: not tomcat_startup.stat.exists  
     - name: create a symbolic link
       ansible.builtin.file:
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
@@ -48,7 +53,7 @@
     - name: Create a systemd unit file in ubuntu
       ansible.builtin.copy:
         src: ubuntu.tomcat.service
-        dest: /etc/systemd/system/tomcat.service
+        dest: /etc/systemd/system/tomcat.service 
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
       when: ansible_facts['distribution'] == "Ubuntu"   
