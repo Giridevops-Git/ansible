@@ -1,7 +1,8 @@
 [webservers]
 10.160.0.52 java_package=java-11-openjdk-devel
-10.160.0.51
-[appservers:vars]
+10.160.0.51 
+
+[webservers:vars]
 java_package=openjdk-11-jdk
 user_name=tomcat
 group_name=tomcat
