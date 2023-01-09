@@ -1,6 +1,6 @@
 [webservers]
-10.160.0.52 java_package=java-11-openjdk-devel
-10.160.0.51 
+172.31.20.44 java_package=java-11-openjdk-devel
+172.31.22.5 
 
 [webservers:vars]
 java_package=openjdk-11-jdk
