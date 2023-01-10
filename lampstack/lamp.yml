@@ -30,7 +30,6 @@
       ansible.builtin.yum: 
         name: 
           - php 
-          - libapache2-mod-php
           - php-mysql
         state: present 
       when: ansible_facts['distribution'] == "CentOS" 
