@@ -33,16 +33,10 @@
       ansible.builtin.file:
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ user_home }}/latest"
-        state: link
-    - name: change permissions
-      ansible.builtin.file:
-        dest: "{{ user_home }}"
-        recurse: true
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        state: directory
-    - name: add execute permissions to shell files
-      ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'" 
+        state: link 
+      notify: 
+        - change permissions 
+        - add execute permissions to shell files 
       when: not tomcat_startup.stat.exists
     - name: Create a systemd unit file in centos
       ansible.builtin.copy:
@@ -50,7 +44,9 @@
         dest: /etc/systemd/system/tomcat.service
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
-      when: ansible_facts['distribution'] == "CentOS"
+      when: ansible_facts['distribution'] == "CentOS" 
+      notify: 
+        - reload daemon and start tomcat  
     - name: Create a systemd unit file in ubuntu
       ansible.builtin.copy:
         src: ubuntu.tomcat.service
@@ -58,12 +54,8 @@
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
       when: ansible_facts['distribution'] == "Ubuntu"   
-    - name: reload daemon and start tomcat
-      ansible.builtin.systemd:
-        name: "{{ tomcat_service_name }}"
-        daemon_reload: yes
-        enabled: yes
-        state: started  
+      notify: 
+        - reload daemon and start tomcat
     - name: copy tomcat users file 
       ansible.builtin.copy: 
         src: tomcat.users.xml 
@@ -81,10 +73,29 @@
         src: hostmanager-context.xml 
         dest: "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"
         owner: "{{user_name}}" 
-        group: "{{group_name}}" 
+        group: "{{group_name}}"  
+      notify: 
+        - restating tomcat       
+  handlers: 
     - name: restating tomcat 
       ansible.builtin.systemd: 
         name: "{{tomcat_service_name}}" 
-        state: restarted  
+        state: started 
+    - name: reload daemon and start tomcat
+      ansible.builtin.systemd:
+        name: "{{ tomcat_service_name }}"
+        daemon_reload: yes
+        enabled: yes
+        state: started  
+    - name: change permissions
+      ansible.builtin.file:
+        dest: "{{ user_home }}"
+        recurse: true
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        state: directory  
+    - name: add execute permissions to shell files
+      ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"        
+
 
           
