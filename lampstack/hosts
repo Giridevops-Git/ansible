@@ -1,0 +1,6 @@
+[ubuntu]
+172.31.6.100 
+[centos] 
+172.31.6.101 apache_package_name= httpd
+[webserver]
+172.31.6.101 php_package_name= php php-msqlnd 
