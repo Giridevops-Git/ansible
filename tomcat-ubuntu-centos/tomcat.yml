@@ -62,18 +62,15 @@
         dest: "{{user_home}}/latest/conf/tomcat-users.xml"
         owner: "{{user_name}}" 
         group: "{{group_name}}"    
-    - name: copy tomcat context file 
+    - name: copy the tomcatt context file 
       ansible.builtin.copy: 
         src: context.xml 
-        dest: "{{user_home}}/latest/webapps/manager/META-INF/context.xml"
+        dest: "{{ item }}"
         owner: "{{user_name}}" 
-        group: "{{group_name}}"  
-    - name: copy hostmanager file 
-      ansible.builtin.copy: 
-        src: hostmanager-context.xml 
-        dest: "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"
-        owner: "{{user_name}}" 
-        group: "{{group_name}}"  
+        group: "{{group_name}}" 
+      loop:  
+        - "{{user_home}}/latest/webapps/manager/META-INF/context.xml"
+        - "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"   
       notify: 
         - restating tomcat       
   handlers: 
