@@ -10,7 +10,7 @@
         state: present 
       when: ansible_facts['distribution'] == "Ubuntu"  
     - name: install apache on centos 
-      ansible.builtin.dnf: 
+      ansible.builtin.yum: 
         name: httpd 
         state: present  
       notify:
@@ -27,7 +27,7 @@
       notify: 
         - enable and restart  apache2
     - name: installing php modules centos 
-      ansible.builtin.dnf: 
+      ansible.builtin.yum: 
         name: 
           - php 
           - libapache2-mod-php
