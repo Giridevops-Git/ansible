@@ -1,54 +1,54 @@
 --- 
-name: instating lamstack in ubuntu and centos
-hosts: all 
-become: yes 
-tasks: 
-  - name: installing apache on ubuntu 
-    ansible.builtin.apt: 
-      name: apache2 
-      update_cache: yes
-      state: present 
-    when: ansible_facts['distribution'] == "Ubuntu"  
-  - name: install apache on centos 
-    ansible.builtin.dnf: 
-      name: httpd 
-      state: present 
-    when: ansible_facts['distribution'] == "CentOS" 
-  - name: installing php modules on ubuntu
-    ansible.builtin.apt: 
-      name: 
-        - php 
-        - libapache2-mod-php
-        - php-mysql
-      state: present 
-    when: ansible_facts['distribution'] == "Ubuntu" 
-    notify: 
-      - enable and restart  apache2
-  - name: installing php modules centos 
-    ansible.builtin.dnf: 
-      name: 
-        - php 
-        - libapache2-mod-php
-        - php-mysql
-      state: present 
-    when: ansible_facts['distribution'] == "CentOS" 
-    notify:
-      - enable and restart  httpd   
-  - name: copy info.php
-    ansible.builtin.copy:
-      src: info.php
-      est: /var/www/html/info.php 
-handlers: 
-  - name: enable and restart  apache2
-    ansible.builtin.systemd: 
-      name: httpd 
-      enabled: yes 
-      state: restarted 
-  - name: enable and restart  httpd
-    ansible.builtin.systemd: 
-      name: httpd 
-      enabled: yes 
-      state: restarted    
+- name: instating lamstack in ubuntu and centos
+  hosts: all 
+  become: yes 
+  tasks: 
+    - name: installing apache on ubuntu 
+      ansible.builtin.apt: 
+        name: apache2 
+        update_cache: yes
+        state: present 
+      when: ansible_facts['distribution'] == "Ubuntu"  
+    - name: install apache on centos 
+      ansible.builtin.dnf: 
+        name: httpd 
+        state: present 
+      when: ansible_facts['distribution'] == "CentOS" 
+    - name: installing php modules on ubuntu
+      ansible.builtin.apt: 
+        name: 
+          - php 
+          - libapache2-mod-php
+          - php-mysql
+        state: present 
+      when: ansible_facts['distribution'] == "Ubuntu" 
+      notify: 
+        - enable and restart  apache2
+    - name: installing php modules centos 
+      ansible.builtin.dnf: 
+        name: 
+          - php 
+          - libapache2-mod-php
+          - php-mysql
+        state: present 
+      when: ansible_facts['distribution'] == "CentOS" 
+      notify:
+        - enable and restart  httpd   
+    - name: copy info.php
+      ansible.builtin.copy:
+        src: info.php
+        est: /var/www/html/info.php 
+  handlers: 
+    - name: enable and restart  apache2
+      ansible.builtin.systemd: 
+        name: httpd 
+        enabled: yes 
+        state: restarted 
+    - name: enable and restart  httpd
+      ansible.builtin.systemd: 
+        name: httpd 
+        enabled: yes 
+        state: restarted    
 
 
 
