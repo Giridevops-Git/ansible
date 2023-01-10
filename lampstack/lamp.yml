@@ -12,7 +12,9 @@
     - name: install apache on centos 
       ansible.builtin.dnf: 
         name: httpd 
-        state: present 
+        state: present  
+      notify:
+        -  enable and restart  httpd   
       when: ansible_facts['distribution'] == "CentOS" 
     - name: installing php modules on ubuntu
       ansible.builtin.apt: 
